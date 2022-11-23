@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+  zookeeper:
+    hostname: zookeeper
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper
+    expose:
+      - "2181"
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    env_file:
+      - kafka/kafka.env
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "8081:8081"
+      - "8082:8082"
+
+  producer-api:
+    container_name: producer-api
+    build:
+      context: producer-api
+    environment:
+      USERNAME: root
+      PASSWORD: rootroot
+      PORT: 8080
+      KAFKA_URL: kafka:9092
+      KAFKA_TOPIC: usertopic
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+
+  storage-api:
+    container_name: storage-api
+    build:
+      context: storage-api
+    environment:
+      PORT: 9090
+      KAFKA_URL: kafka:9092
+      KAFKA_TOPIC: usertopic
+      KAFKA_GROUP_ID: user-group
+    expose:
+      - "9090"
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka

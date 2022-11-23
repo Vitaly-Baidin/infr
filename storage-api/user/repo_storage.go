@@ -1,6 +1,6 @@
 package user
 
-import "github.com/Vitaly-Baidin/infr/pkg/storage"
+import "github.com/Vitaly-Baidin/storage-api/storage"
 
 type RepoStorage struct {
 	storage *storage.Storage[string, UserGrade]

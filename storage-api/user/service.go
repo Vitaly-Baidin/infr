@@ -1,28 +1,19 @@
 package user
 
-import "github.com/go-playground/validator/v10"
-
 type Service interface {
 	Save(u *UserGrade) error
 	FindByKey(k string) (*UserGrade, error)
 }
 
 type Serv struct {
-	repo      Repository
-	validator *validator.Validate
+	repo Repository
 }
 
 func NewService(r Repository) *Serv {
-	v := validator.New()
-	return &Serv{repo: r, validator: v}
+	return &Serv{repo: r}
 }
 
 func (s *Serv) Save(u *UserGrade) error {
-	err := s.validator.Struct(u)
-	if err != nil {
-		return err
-	}
-
 	user, err := s.repo.GetByKey(u.UserId)
 	if err == nil {
 		updateUser(u, user)

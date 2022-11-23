@@ -2,7 +2,7 @@ package user
 
 import (
 	"encoding/json"
-	"github.com/Vitaly-Baidin/infr/internal/response"
+	"github.com/Vitaly-Baidin/storage-api/response"
 	"io"
 	"net/http"
 )
