@@ -26,3 +26,19 @@ type UserGrade struct {
 - При старте приложения мы дергаем метод /backup реплики. Заполняем данными storage.
 Подписываемся к каналу с того времени, которое указано в бекапе.
 - Подумайте над порядком запуска функций, бекап может быть большим и восстановление может занять время
+
+# Запуск & тест
+1. docker-compose up -d
+2. методы
+   - http://localhost:8080/set + headers (basic auth = root rootroot)
+   - body:
+    ```json
+    {
+    "user_id": "test",
+    "postpaid_limit": 200,
+    "spp": 300,
+    "shipping_fee": 400,
+    "return_fee": 500
+    }
+    ```
+   - http://localhost:9090/get + headers (user_id: test)
